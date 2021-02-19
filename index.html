@@ -3,6 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&family=Merriweather:wght@700&display=swap"
       rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/style.css" />
@@ -14,20 +15,64 @@
     <main class="flex-row justify-space-between">
       <div class="col-12 col-md-4">
 
-      <div class="card">
-        <h2 class="card-header">Search for a City:</h2>
-        <form id="search-form" class="card-body">
-        <button type="submit" class="btn"><i class="fa fa-search"></i></button>
-      </form>
-      </div>
+        <div class="card">
+          <h2 class="card-header">Search for a City:</h2>
+          <form id="search-form" class="card-body">
+            <input id="city-name" type="text" placeholder="Enter city name">
+            <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
     
-      <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8">
+          <span id="city" class="city-info"></span>
+          <img id="weather-pic" src="placeholder" alt="">
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <p id="temperature"></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <p id="humidity"></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <p id="wind-speed"></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <p id="uv-index"></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h3>5 Day Forecast</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+          <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+          <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+          <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+          <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+        </div>
 
       </div>
+    </main>
 
-    </div>
-</main>
+<footer>
 
+    <script src="./assets/js/script.js"></script>
+
+</footer>
 </body>
-
 </html>
