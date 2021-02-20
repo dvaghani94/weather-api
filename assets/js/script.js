@@ -48,7 +48,49 @@ function getWeather(cityName) {
                 });
         }
 
-        
-    })
+        var cityID = response.data.id;
+        var weatherForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=" + APIKey;
+            $.ajax({
+                url: weatherForecastURL,
+                method: "GET"
+            }).then(function(response){
+                var weatherForecast = document.querySelectorAll(".forecast");
+                for (i=0; i < weatherForecast.length; i++) {
+                    weatherForecast[i].innerHTML = "";
+
+                var forecastIndex = i*8 + 4;
+                var weatherForecastDate = new Date(response.data.list[forecastIndex].dt * 1000);
+                var weatherForecastDay = weatherForecastDate.getDate();
+                var weatherForecastMonth = weatherForecastDate.getMonth() + 1;
+                var weatherForecastYear = weatherForecastDate.getFullYear();
+                var dateForecast = document.createElement("p");
+                var weatherForecast = document.createElement("img");
+                var tempForecast = document.createElement("p");
+                var humidityForecast = document.createElement("p");
+
+                dateForecast.setAttribute("class", "mt-3 mb-0 forecast-date");
+                dateForecast.innerHTML = weatherForecastMonth + "/" + weatherForecastDay + "/" + weatherForecastYear;
+                
+                weatherForecast.setAttribute("https://openweathermap.org/img/wn/" + response.data.list[forecastIndex].weather[0].icon + "@2x.png");
+                
+                tempForecast.innerHTML = "Temperature: " + k2f(response.data.list[forecastIndex].main.temp) + " &#176";
+
+                humidityForecast.innerHTML = "Humidity: " + response.data.list[forecastIndex].main.humidity + "%";
+
+                weatherForecast[i].append(dateForecast);
+                weatherForecast[i].append(weatherForecast);
+                weatherForecast[i].append(tempForecast);
+                weatherForecast[i].append(humidityForecast);
+
+
+                console.log(response);
+                }
+            })
+    });
 }
+
+
+
+
+
 }
