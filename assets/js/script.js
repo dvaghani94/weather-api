@@ -1,4 +1,4 @@
-var APIKey = "822421a519a9e2a66b6ce042d8b26f84";
+var APIKey = "21cba60e15016db1b7dc111b9a568389";
 
 var userInput = document.getElementById("city-name")
 var searchCity = document.getElementById("search-btn");
@@ -21,10 +21,8 @@ searchCity.addEventListener("click", function(){
 
 function getWeather(cityName) {
     var weatherURL = "https://api.openweathermap.org/data/2.5/weather?=" + cityName + "&appid=" + APIKey;
-    $.ajax({
-        url: weatherURL,
-        method: "GET",
-    }).then(function(response) {
+    fetch(weatherURL)
+        .then(function(response) {
         console.log(response)
         var weatherImage = response.data.weather[0].icon;
         weatherPic.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherImage + "@2x.png");
@@ -61,10 +59,8 @@ function getWeather(cityName) {
 
         var cityID = response.data.id;
         var weatherForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=" + APIKey;
-            $.ajax({
-                url: weatherForecastURL,
-                method: "GET"
-            }).then(function(response){
+            fetch(weatherForecastURL)
+            .then(function(response){
                 var weatherForecast = document.querySelectorAll(".forecast");
                 for (i=0; i < weatherForecast.length; i++) {
                     weatherForecast[i].innerHTML = "";
@@ -117,6 +113,8 @@ recallSearchStorage();
          var searchHistory = document.createElement("input");
          searchHistory.setAttribute("type","text");
          searchHistory.setAttribute("value", searchStorage[i]);
+         searchHistory.setAttribute("class", "form-control d-block bg-white");
+         searchHistory.setAttribute("readonly", true);
          searchHistory.addEventListener("click", function() {
              getWeather(searchHistory.value);
          })
