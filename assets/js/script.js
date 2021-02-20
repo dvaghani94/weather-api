@@ -1,14 +1,23 @@
-function initData() {
 var APIKey = "822421a519a9e2a66b6ce042d8b26f84";
 
+var userInput = document.getElementById("city-name")
 var searchCity = document.getElementById("search-btn");
-var userSearch = document.getElementById("city-name");
-var cityTemp = document.getElementsById("temperature");
-var cityHumidity = document.getElementsById("humidity");
-var cityWindSpeed = document.getElementsById("wind-speed");
-var cityUVIndex = document.getElementsById("uv-index");
+var userSearch = document.getElementById("city");
+var cityTemp = document.getElementById("temperature");
+var cityHumidity = document.getElementById("humidity");
+var cityWindSpeed = document.getElementById("wind-speed");
+var cityUVIndex = document.getElementById("uv-index");
+var weatherPic = document.getElementById("weather-pic");
+var cityHistory = document.getElementById("history");
 var searchStorage = JSON.parse(localStorage.getItem("search")) || [];
-        console.log(serachStorage)
+        console.log(searchStorage)
+
+searchCity.addEventListener("click", function(){
+    var userCityName = userInput.value;
+    getWeather(userCityName);
+    searchStorage.setItem("search", JSON.stringify(searchStorage));
+    recallSearchStorage();
+})
 
 function getWeather(cityName) {
     var weatherURL = "https://api.openweathermap.org/data/2.5/weather?=" + cityName + "&appid=" + APIKey;
@@ -16,8 +25,10 @@ function getWeather(cityName) {
         url: weatherURL,
         method: "GET",
     }).then(function(response) {
-        var weatherImage = response.weather[0].icon;
-        var imageURL = "http://openweathermap.org/img/wn/" + weatherImage + "@2x.png";
+        console.log(response)
+        var weatherImage = response.data.weather[0].icon;
+        weatherPic.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherImage + "@2x.png");
+        weatherPic.setAttribute("alt", response.data.weather[0].description);
 
         var currentDate = new Date(response.data.dt*1000);
         var currentDay = currentDate.getDate();
@@ -71,8 +82,9 @@ function getWeather(cityName) {
                 dateForecast.setAttribute("class", "mt-3 mb-0 forecast-date");
                 dateForecast.innerHTML = weatherForecastMonth + "/" + weatherForecastDay + "/" + weatherForecastYear;
                 
-                weatherForecast.setAttribute("https://openweathermap.org/img/wn/" + response.data.list[forecastIndex].weather[0].icon + "@2x.png");
-                
+                weatherForecast.setAttribute("src", "https://openweathermap.org/img/wn/" + response.data.list[forecastIndex].weather[0].icon + "@2x.png");
+                weatherForecast.setAttribute("alt", response.data.list[forecastIndex].weather[0].description);
+
                 tempForecast.innerHTML = "Temperature: " + k2f(response.data.list[forecastIndex].main.temp) + " &#176";
 
                 humidityForecast.innerHTML = "Humidity: " + response.data.list[forecastIndex].main.humidity + "%";
@@ -87,10 +99,29 @@ function getWeather(cityName) {
                 }
             })
     });
+    
+    function k2f(K) {
+        return Math.floor((K - 273.15) * 1.8 + 32);
+    }
 }
 
 
+recallSearchStorage();
+    if (searchStorage.length > 0) {
+        getWeather(searchStorage[searchStorage.length - 1]);
+    }
 
+ function recallSearchStorage() {
 
+     for (var i = 0; i < searchStorage.length; i++) {
+         var searchHistory = document.createElement("input");
+         searchHistory.setAttribute("type","text");
+         searchHistory.setAttribute("value", searchStorage[i]);
+         searchHistory.addEventListener("click", function() {
+             getWeather(searchHistory.value);
+         })
 
-}
+         cityHistory.append(searchHistory);
+        }
+    }
+
