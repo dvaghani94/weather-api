@@ -10,20 +10,21 @@ var cityUVIndex = document.getElementById("uv-index");
 var weatherPic = document.getElementById("weather-pic");
 var cityHistory = document.getElementById("history");
 var searchStorage = JSON.parse(localStorage.getItem("search")) || [];
-        console.log(searchStorage)
+        console.log(localStorage)
 
-searchCity.addEventListener("click", function(){
+searchCity.addEventListener("click", function(event) {
+    event.preventDefault();
     var userCityName = userInput.value;
     getWeather(userCityName);
-    searchStorage.setItem("search", JSON.stringify(searchStorage));
+    localStorage.setItem("search", JSON.stringify(searchStorage));
     recallSearchStorage();
 })
 
 function getWeather(cityName) {
-    var weatherURL = "https://api.openweathermap.org/data/2.5/weather?=" + cityName + "&appid=" + APIKey;
-    fetch(weatherURL)
-        .then(function(response) {
-        console.log(response)
+    fetch("https://api.openweathermap.org/data/2.5/weather?=" + cityName + "&appid=" + APIKey)
+        .then(response => response.json())
+        .then((data) => {
+        console.log(data)
         var weatherImage = response.data.weather[0].icon;
         weatherPic.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherImage + "@2x.png");
         weatherPic.setAttribute("alt", response.data.weather[0].description);
@@ -45,7 +46,8 @@ function getWeather(cityName) {
         function currentUVIndex(ln,lt) {
             var UVIndexURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat= " + lt + "&lon " + ln;
                fetch(UVIndexURL)
-               .then(function(response) {
+               .then(response => response.json())
+               .then((data) => {
                 console.log(response)
                     var currentUVIndex = document.createElement("span");
                     currentUVIndex.setAttribute("class", "badge badge-danger");
@@ -58,7 +60,8 @@ function getWeather(cityName) {
         var cityID = response.data.id;
         var weatherForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=" + APIKey;
             fetch(weatherForecastURL)
-            .then(function(response){
+            .then(response => response.json())
+            .then((data) => {
                 var weatherForecast = document.querySelectorAll(".forecast");
                 for (i=0; i < weatherForecast.length; i++) {
                     weatherForecast[i].innerHTML = "";
@@ -106,7 +109,6 @@ recallSearchStorage();
     }
 
  function recallSearchStorage() {
-
      for (var i = 0; i < searchStorage.length; i++) {
          var searchHistory = document.createElement("input");
          searchHistory.setAttribute("type","text");
