@@ -5,7 +5,35 @@ header {
     text-align: center;
 }
 
-.button {
-    width: 10px;
-    display: inline-block;
+form.card-body input[type=text] {
+    padding: 10px;
+    float: left;
+    font-size: 15px;
+    border: 1px solid grey;
+    width : 250px;
+    height: 40px;
+    background:rgb(212, 207, 202);
+}
+
+form.card-body button {
+    width : 50px;
+    height: 40px;
+    padding: 10px;
+    font-size: 15px;
+    float: left;
+    color: white;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+    background: #2196F3;
+}
+
+form.card-body button:hover {
+    background: rgb(122, 122, 165);
+}
+
+form.card-body::after {
+    content: "";
+    display: table;
+    clear: both;
 }
