@@ -44,11 +44,9 @@ function getWeather(cityName) {
 
         function currentUVIndex(ln,lt) {
             var UVIndexURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat= " + lt + "&lon " + ln;
-                $.ajax({
-                    url: UVIndexURL,
-                    method: "GET"
-                }).then(function(response) {
-
+               fetch(UVIndexURL)
+               .then(function(response) {
+                console.log(response)
                     var currentUVIndex = document.createElement("span");
                     currentUVIndex.setAttribute("class", "badge badge-danger");
                     currentUVIndex.innerHTML = response.data[0].value;
