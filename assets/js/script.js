@@ -21,7 +21,8 @@ $(document).ready(function(){
         console.log("working");
         var userCityName = userInput.value;
         getWeather(userCityName);
-        currentUVIndex()
+        currentUVIndex();
+        grabsForecast();
         console.log(userCityName);
     
         // localStorage.setItem("search", JSON.stringify(searchStorage));
@@ -52,7 +53,9 @@ function getWeather(userCityName) {
                 $("#theContent").append(body)
 
 
-
+                var lat = data.coord.lat;
+                var lon = data.coord.lon;
+                var cityID = data.id;
 
             // var weatherImage = response.data.weather[0].icon;
             // weatherPic.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherImage + "@2x.png");
@@ -75,21 +78,21 @@ function getWeather(userCityName) {
 // Grabs the UV index  
 
 function currentUVIndex(lat,lon) {
-
-       fetch("https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon " + lon + "&appid " + APIKey)
+    
+       fetch("https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon= " + lon + "&appid= " + APIKey)
        .then(response => response.json())
        .then((data) => {
         console.log(data);
         
             var UVIndex = $("<p>").addClass("card-body").text(data.value)
-           
+            body.append(UVIndex)
             $("#theContent").append(body)
         });
 }
 
 // Grabs the forcast
-function grabsForecast(){
-    var cityID = response.data.id;
+function grabsForecast(cityID){
+    
         fetch("https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&units=imperial" + "&appid=" + APIKey)
         .then(response => response.json())
         .then((data) => {
@@ -114,7 +117,7 @@ function grabsForecast(){
             
             // weatherForecast.setAttribute("src", "https://openweathermap.org/img/wn/" + response.data.list[forecastIndex].weather[0].icon + "@2x.png");
             // weatherForecast.setAttribute("alt", response.data.list[forecastIndex].weather[0].description);
-
+            body.append(windForecast, tempForecast, humidityForecast)
             $("#forecast").append(body)
             }
         })
